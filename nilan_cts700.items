@@ -1,0 +1,29 @@
+// part of git repository OH2-cts700 for Nilan Compact P heat pumps with cts700 touch control
+// items 
+
+Group All
+Group gNilan			"All Modbus attributes (input + holding)" 	(All)
+Group gNilanAirTemperature		"Air temperature sensors"     			(All)
+Group gNilanProgram		"User program settings"                   	(All)
+Group gNilanWaterTemperature	"Hot water sensors"                       	(All)
+Group gNilanInteralTemperature	"Quality sensors"			     	(All)
+
+Number	Nilan_T1_Temperature	"Nilan Aussen [%.1f °C]"				<temperature>	(gNilanAirTemperature)		{modbus="<[NilanTemp:0:transformation=JS(divide10.js)]"}
+Number	Nilan_T2_Temperature	"Nilan Zuluft [%.1f °C]"				<temperature>	(gNilanAirTemperature)		{modbus="<[NilanTemp:1:transformation=JS(divide10.js)]"}
+Number	Nilan_T3_Temperature	"Nilan Abluft [%.1f °C]"				<temperature>	(gNilanAirTemperature)		{modbus="<[NilanTemp:2:transformation=JS(divide10.js)]"}
+Number	Nilan_T4_Temperature	"Nilan Fortluft nach Waermetauscher [%.1f °C]"		<temperature>	(gNilanInteralTemperature)	{modbus="<[NilanTemp:3:transformation=JS(divide10.js)]"}
+Number	Nilan_T5_Temperature	"Nilan Fortluft nach Waermepumpe [%.1f °C]"		<temperature>	(gNilanInteralTemperature)	{modbus="<[NilanTemp:4:transformation=JS(divide10.js)]"}
+Number	Nilan_T6_Temperature	"Nilan Verdampfer [%.1f °C]"				<temperature>	(gNilanInteralTemperature)	{modbus="<[NilanTemp:5:transformation=JS(divide10.js)]"}
+Number	Nilan_T7_Temperature	"Nilan Zuluft nach Nachheizregister [%.1f °C]"		<temperature>	(gNilanAirTemperature)		{modbus="<[NilanTemp:6:transformation=JS(divide10.js)]"}
+
+Number	Nilan_T11_Temperature	"Nilan Warmwasser oben [%.2f °C]"			<temperature>	(gNilanWaterTemperature)	{modbus="<[NilanTemp:10:transformation=JS(divide10.js)]"}
+Number	Nilan_T12_Temperature	"Nilan Warmwasser unten [%.2f °C]"			<temperature>	(gNilanWaterTemperature)	{modbus="<[NilanTemp:11:transformation=JS(divide10.js)]"}
+
+Number 	Nilan_RegulationMode	"Nilan Betriebsmodus- reglation mode [MAP(Nilan_RegulationMode.map):%s]" <settings>	(gNilan)	{modbus="<[NilanRegulationMode:0]"}
+Number 	Nilan_WorkingMode	"Nilan Betriebsmodus - working mode [MAP(Nilan_WorkingMode.map):%s]" 	<settings>	(gNilan)	{modbus="<[NilanRegulationMode:0]"}
+
+Number	Nilan_UserSetTemp	"Nilan user temperature set point [%.1f °C]"		<temperature>	(gNilan)			{modbus="<[NilanTempSet:0:transformation=JS(divide10.js)]"}
+Number	Nilan_UserSetFanSpeed   "Nilan van speed [%d %%]"				<fan>		(gNilan)			{modbus="<[NilanTempSet:1"}
+Number	Nilan_UserSetTempDWH	"Nilan user warm water temperature set point [%.1f °C]"		<temperature>	(gNilan)			{modbus="<[NilanTempDWHSet:0:transformation=JS(divide10.js)]"}
+
+Number 	Nilan_WarmWaterCapacity	"Warm Wasser Kapzität [%.0f l]"				<water>

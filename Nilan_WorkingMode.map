@@ -1,0 +1,8 @@
+// part of git repository OH2-cts700 for Nilan Compact P heat pumps with cts700 touch control
+-=Not set yet
+0=System is Off
+1=System works in Week/Year mode
+2=System works in Ext.Operation mode
+3=System works in manual mode
+4=System works in LON mode
+5=System works in service mode

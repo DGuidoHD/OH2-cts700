@@ -1,0 +1,47 @@
+
+// an uninitialized variable where we have to provide the type (as it cannot be inferred from an initial value)
+var Number1 x
+
+rule "nilan warm water inital"
+when
+//	Time cron "0/10 * * * * ?"
+	System started
+then
+	var Number nix = 0
+	Nilan_WarmWaterCapacity.postUpdate(nix)
+end
+
+rule "nilan warm water capacity"
+when
+        Item Nilan_T11_Temperature received update or
+        Item Nilan_T12_Temperature received update 
+//or
+//	Time cron "0/10 * * * * ?"
+then
+	// T11 = top, T12 = bottom of tank
+	val Number T11 = Nilan_T11_Temperature.state as DecimalType
+	val Number T12 = Nilan_T12_Temperature.state as DecimalType
+	var Number oldWWCapacity = Nilan_WarmWaterCapacity.state 
+	// Ttarget: target warm water temperature for which the capacity shall be calculated 
+	val Number Ttarget = 35.0
+	// ratio of tank, which has a water temperature above Ttarget temperature
+	var Number ratio  = ( T11 - Ttarget )/ ( T11 - T12 )
+
+//	logInfo ("openhab", "0 ratio " + ratio)
+
+	if (ratio < 0 ) {
+	    	Nilan_WarmWaterCapacity.postUpdate(0) 
+		return;
+	}
+	if (ratio > 1) ratio = 1
+
+	// offset (80) and slop (65) extracted from Nilan data sheets
+		// return value: liters of above Ttarget temperature that can be provided
+        var Number WWCapacity = (80 + 65 * ( T11 + T12 - 40) / 20) * ratio
+	logInfo ("openhab", "1 WWCapacity calc " + WWCapacity + ", old " + oldWWCapacity + ", ratio" + ratio + ",T11 " + T11 + ",T12 " + T12)
+
+	var Number change = oldWWCapacity - WWCapacity
+	if ( change > 2) Nilan_WarmWaterCapacity.postUpdate(WWCapacity)
+	if ( change < -2) Nilan_WarmWaterCapacity.postUpdate(WWCapacity)
+
+end

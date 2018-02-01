@@ -1,0 +1,7 @@
+// part of git repository OH2-cts700 for Nilan Compact P heat pumps with cts700 touch control
+-=Not set yet
+0=Mode isn't defined.
+1=Cooling mode.
+2=Heating mode.
+3=Ventilation mode.
+4=Hot water mode.
